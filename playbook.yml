@@ -1,0 +1,22 @@
+- name: Deploy Web Application
+  hosts: web
+  tasks:
+    - name: Install Apache (if not already installed)
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      become: true
+
+    - name: Copy index.html to web server
+      copy:
+        src: app_files/index.html
+        dest: /var/www/html/index.html
+      become: true
+
+    - name: Start and enable Apache2
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+      become: true
